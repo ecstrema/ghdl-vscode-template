@@ -1,0 +1,57 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "analyze",
+      "type": "shell",
+      "command": "ghdl",
+      "args": [
+        "-a",
+        "--workdir=work",
+        "${file}",
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "elaborate",
+      "type": "shell",
+      "command": "ghdl",
+      "args": [
+        "-e",
+        "--workdir=work",
+        "${fileBasenameNoExtension}",
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": [
+        "analyze"
+      ]
+    },
+    {
+      "label": "run",
+      "type": "shell",
+      "command": "ghdl",
+      "args": [
+        "-r",
+        "--workdir=work",
+        "${fileBasenameNoExtension}",
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": [
+        "elaborate"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
